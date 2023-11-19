@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+aiokafka
+python-decouple
+cassandra-driver
+apache-flink==1.18.0
+typing-extensions==4.8.0
+apache-beam<2.49.0
+elasticsearch
