@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 import elasticsearch
 from elasticsearch_util import check_connection, create_index, set_subtitles_mapping
 from datetime import datetime
@@ -18,13 +18,15 @@ def filter_logs(
     level: str = None,
     message: str = None,
     resourceId: str = None,
-    timestamp_start: str = None,
-    timestamp_end: str = None,
+    timestamp_start: datetime = None,
+    timestamp_end: datetime = None,
     traceId: str = None,
     spanId: str = None,
     commit: str = None,
     parentResourceId: str = None,
     regex_fields: str = None,
+    page: int = Query(1, ge=1),
+    size: int = Query(10, ge=1, le=100),
 ):
     query = {
         "bool": {
@@ -38,7 +40,6 @@ def filter_logs(
     if message:
         if "message" in regex_fields:
             query["bool"]["must"].append({"regexp": {"message": message}})
-            
         else:
             query["bool"]["must"].append({"match": {"message": message}})
 
@@ -69,8 +70,14 @@ def filter_logs(
     if parentResourceId:
         query["bool"]["must"].append({"term": {"parentResourceId": parentResourceId}})
 
+    if query["bool"]["must"] == []:
+        query = {"match_all": {}}
+
     try:
-        result = esclient.search(index="logs", body={"query": query})
+        result = esclient.search(
+            index="logs",
+            body={"query": query, "from": (page - 1) * size, "size": size},
+        )
 
         response = {
             "total": result["hits"]["total"]["value"],

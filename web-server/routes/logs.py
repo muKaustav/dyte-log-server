@@ -25,12 +25,14 @@ async def get_log(
     level: str = Query(None, min_length=1, max_length=10),
     message: str = Query(None, min_length=1, max_length=100),
     resourceId: str = Query(None, min_length=1, max_length=100),
-    timestamp_start: str = Query(None),
-    timestamp_end: str = Query(None),
+    timestamp_start: datetime = Query(datetime(1970, 1, 1)),
+    timestamp_end: datetime = Query(datetime.now()),
     traceId: str = Query(None, min_length=1, max_length=100),
     spanId: str = Query(None, min_length=1, max_length=100),
     commit: str = Query(None, min_length=1, max_length=100),
     parentResourceId: str = Query(None, min_length=1, max_length=100),
+    page: int = Query(1, ge=1),
+    size: int = Query(10, ge=1, le=100),
 ):
     """
     Check connection to Elasticsearch
@@ -46,6 +48,8 @@ async def get_log(
             "spanId": spanId,
             "commit": commit,
             "parentResourceId": parentResourceId,
+            "page": page,
+            "size": size,
         }
 
         response = await send_get_request(os.getenv("ELASTICSEARCH_URL"), query_params)
