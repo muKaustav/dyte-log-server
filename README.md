@@ -42,8 +42,9 @@ The following are some sample queries that will be executed for validation.
 
 - Clone this repository.
 - Install Docker Desktop.
-- Run `docker-compose up --build` in the root directory of the project.
-- The Web UI will be available at `http://localhost:3000/`.
+- Run `docker-compose up --build` in the root directory of the project. This process takes a a minute or two to complete, for the first time.
+- You might have to stop the containers and run the command again, because the Cassandra containers sometimes takes some time to create superusers upon first time container start, because of which the consumer fails.
+- The Web UI will be available at `http://localhost:3000/static/index.html`.
 
 ### Note:
 
@@ -76,21 +77,21 @@ The following are some sample queries that will be executed for validation.
 ### Current Architecture:
 
 - Containerized approach to solving the problem statement.
-- Given the non blocking & async I/O of FastAPI, it is used as the web framework. This will help in ingesting logs at a faster rate.
-- Apache Kafka is used as the message broker. It will help in decoupling the ingestion and querying process.
-- Apache Cassandra is used as the database. It is a NoSQL database and is highly scalable. It will help in storing the logs in a distributed manner. It also provides a fast read/write speed, i.e. high throughput.
-- Query interface is built upon Elasticsearch. It is a distributed, RESTful search and analytics engine. It helps in providing a fast search result. Elasticsearch works wonders with large databases, with minimal latency.
+- Given the **non-blocking** & **async I/O** of **FastAPI**, it is used as the web framework. This will help in ingesting logs at a faster rate.
+- **Apache Kafka** is used as the message broker. It will help in decoupling the ingestion and querying process.
+- **Apache Cassandra** is used as the database. It is a NoSQL database and is highly scalable. It will help in storing the logs in a **distributed** manner. It also provides a fast read/write speed, i.e. **high throughput**.
+- Query interface is built upon **Elasticsearch**. It is a distributed, RESTful search and analytics engine. It helps in providing a fast search result. Elasticsearch works wonders with large databases, with **high processing speeds**.
 - The logs are ingested via an HTTP server, which runs on port `3000` by default.
 
 ### Future Scope:
 
 - The current architecture is a very basic implementation of the problem statement.
-- Depending upon the scale, the entire architecture can be scaled horizontally.
-- Load Balancing can be implemented to handle high volumes of logs efficiently.
-- Apache Flink can be setup between Kafka and Cassandra for streaming, processing and analytics.
-- Cassandra can be used as a Data Lake, and Apache Spark can be used for analytics.
-- JWT Authentication can be implemented for the Web UI. (didn't have time)
-- Regex filters can be implemented on Elasticsearch. (didn't have time)
+- Depending upon the scale, the entire architecture can be **scaled horizontally**.
+- Load Balancing can be implemented to handle high volumes of logs efficiently. We might use **AWS ELB**.
+- **Apache Flink** can be setup between Kafka and Cassandra for streaming, processing and analytics.
+- **Cassandra** can be used as a Data Lake, and **Apache Spark** can be used for analytics.
+- **JWT Authentication** can be implemented for the Web UI. (didn't have time)
+- **Regex filters** can be implemented on Elasticsearch. (didn't have time)
 
 ## 🧑🏽 | Author
 
