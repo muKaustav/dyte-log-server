@@ -58,7 +58,7 @@ The following are some sample queries that will be executed for validation.
 ## 📝 | System Design
 
 <p align = center>
-    <img alt="Project Logo" src="https://raw.githubusercontent.com/muKaustav/dyte_log_server/main/assets/system_arch.png" target="_blank" />
+    <img alt="Project Logo" src="https://raw.githubusercontent.com/muKaustav/dyte_log_server/main/assets/" target="_blank" />
 </p>
 
 ### Features Implemented:
