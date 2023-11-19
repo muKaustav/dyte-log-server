@@ -42,11 +42,14 @@ The following are some sample queries that will be executed for validation.
 
 - Clone this repository.
 - Install Docker Desktop.
-- Run `docker-compose up` in the root directory of the project.
+- Run `docker-compose up --build` in the root directory of the project.
 - The Web UI will be available at `http://localhost:3000/`.
 
 ### Note:
+
 - The Web UI is very basic, and is only meant for testing the API.
+
+<br/>
 
 #### Demo Link hosted on GDrive: [Click Here]()
 
