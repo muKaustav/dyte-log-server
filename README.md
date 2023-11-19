@@ -29,7 +29,7 @@
 
 <br/>
 
-## 📝 | Sample Queries
+## 🎯 | Sample Queries
 
 The following are some sample queries that will be executed for validation.
 
@@ -54,6 +54,47 @@ The following are some sample queries that will be executed for validation.
 #### Demo Link hosted on GDrive: [Click Here]()
 
 <br/>
+
+## 📝 | System Design
+
+<p align = center>
+    <img alt="Project Logo" src="https://raw.githubusercontent.com/muKaustav/dyte_log_server/main/assets/system_arch.png" target="_blank" />
+</p>
+
+### Features Implemented:
+
+- Web UI running on port `3000`.
+- Include filters based on:
+  - level
+  - message
+  - resourceId
+  - timestamp
+  - traceId
+  - spanId
+  - commit
+  - metadata.parentResourceId
+- Implement search within specific date ranges.
+- Allow combining multiple filters.
+- Provide real-time log ingestion and searching capabilities.
+
+### Current Architecture:
+
+- Containerized approach to solving the problem statement.
+- Given the non blocking & async I/O of FastAPI, it is used as the web framework. This will help in ingesting logs at a faster rate.
+- Apache Kafka is used as the message broker. It will help in decoupling the ingestion and querying process.
+- Apache Cassandra is used as the database. It is a NoSQL database and is highly scalable. It will help in storing the logs in a distributed manner. It also provides a fast read/write speed, i.e. high throughput.
+- Query interface is built upon Elasticsearch. It is a distributed, RESTful search and analytics engine. It helps in providing a fast search result. Elasticsearch works wonders with large databases, with minimal latency.
+- The logs are ingested via an HTTP server, which runs on port `3000` by default.
+
+### Future Scope:
+
+- The current architecture is a very basic implementation of the problem statement.
+- Depending upon the scale, the entire architecture can be scaled horizontally.
+- Load Balancing can be implemented to handle high volumes of logs efficiently.
+- Apache Flink can be setup between Kafka and Cassandra for streaming, processing and analytics.
+- Cassandra can be used as a Data Lake, and Apache Spark can be used for analytics.
+- JWT Authentication can be implemented for the Web UI. (didn't have time)
+- Regex filters can be implemented on Elasticsearch. (didn't have time)
 
 ## 🧑🏽 | Author
 
