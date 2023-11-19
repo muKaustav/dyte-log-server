@@ -51,10 +51,6 @@ The following are some sample queries that will be executed for validation.
 
 <br/>
 
-#### Demo Link hosted on GDrive: [Click Here]()
-
-<br/>
-
 ## 📝 | System Design
 
 <p align = center>
