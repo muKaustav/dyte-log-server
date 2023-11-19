@@ -39,7 +39,18 @@ def filter_logs(
 
     if message:
         if "message" in regex_fields:
-            query["bool"]["must"].append({"regexp": {"message": message}})
+            query["bool"]["must"].append(
+                {
+                    "regexp": {
+                        "message": {
+                            "value": message,
+                            "flags": "ALL",
+                            "case_insensitive": True,
+                            "rewrite": "constant_score",
+                        }
+                    }
+                }
+            )
         else:
             query["bool"]["must"].append({"match": {"message": message}})
 
@@ -70,9 +81,6 @@ def filter_logs(
     if parentResourceId:
         query["bool"]["must"].append({"term": {"parentResourceId": parentResourceId}})
 
-    if query["bool"]["must"] == []:
-        query = {"match_all": {}}
-
     try:
         result = esclient.search(
             index="logs",
@@ -81,6 +89,9 @@ def filter_logs(
 
         response = {
             "total": result["hits"]["total"]["value"],
+            "page": page,
+            "size": size,
+            "pages": (result["hits"]["total"]["value"] // size) + 1,
             "logs": [hit["_source"] for hit in result["hits"]["hits"]],
         }
 

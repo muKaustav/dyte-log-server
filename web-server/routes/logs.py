@@ -31,6 +31,7 @@ async def get_log(
     spanId: str = Query(None, min_length=1, max_length=100),
     commit: str = Query(None, min_length=1, max_length=100),
     parentResourceId: str = Query(None, min_length=1, max_length=100),
+    regex_fields: str = Query(None, min_length=1, max_length=100),
     page: int = Query(1, ge=1),
     size: int = Query(10, ge=1, le=100),
 ):
@@ -48,6 +49,7 @@ async def get_log(
             "spanId": spanId,
             "commit": commit,
             "parentResourceId": parentResourceId,
+            "regex_fields": regex_fields,
             "page": page,
             "size": size,
         }

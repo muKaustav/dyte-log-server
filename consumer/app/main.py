@@ -31,8 +31,6 @@ async def consume_and_insert_to_cassandra():
             metadata = json.dumps(data["metadata"]).replace("'", "''")
             data["metadata"] = metadata
 
-            print("CONSUMER", data)
-
             cassandra_obj.insert_log(data)
             es_client.index(index="logs", body=data)
 

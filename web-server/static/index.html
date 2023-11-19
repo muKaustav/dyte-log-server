@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dyte Log Viewer</title>
+    </head>
+
+    <body>
+        <h1>Dyte Log Viewer</h1>
+
+        <h2>Get Logs</h2>
+        <form id="getLogsForm">
+            <label for="level">Level:</label>
+            <input type="text" name="level" id="level" />
+
+            <label for="message">Message:</label>
+            <input type="text" name="message" id="message" />
+
+            <label for="resourceId">Resource ID:</label>
+            <input type="text" name="resourceId" id="resourceId" />
+
+            <label for="timestamp_start">Timestamp Start:</label>
+            <input type="text" name="timestamp_start" id="timestamp_start" />
+
+            <label for="timestamp_end">Timestamp End:</label>
+            <input type="text" name="timestamp_end" id="timestamp_end" />
+
+            <label for="traceId">Trace ID:</label>
+            <input type="text" name="traceId" id="traceId" />
+
+            <label for="spanId">Span ID:</label>
+            <input type="text" name="spanId" id="spanId" />
+
+            <label for="commit">Commit:</label>
+            <input type="text" name="commit" id="commit" />
+
+            <label for="parentResourceId">Parent Resource ID:</label>
+            <input type="text" name="parentResourceId" id="parentResourceId" />
+
+            <label for="page">Page:</label>
+            <input type="number" name="page" id="page" />
+
+            <label for="size">Size:</label>
+            <input type="number" name="size" id="size" />
+
+
+            <button type="button" onclick="getLogs()">Get Logs</button>
+        </form>
+
+        <div id="responseContainer"></div>
+
+        <script>
+            async function getLogs() {
+                const level = document.getElementById("level").value;
+                const message = document.getElementById("message").value;
+                const resourceId = document.getElementById("resourceId").value;
+                const timestamp_start = document.getElementById("timestamp_start").value;
+                const timestamp_end = document.getElementById("timestamp_end").value;
+                const traceId = document.getElementById("traceId").value;
+                const spanId = document.getElementById("spanId").value;
+                const commit = document.getElementById("commit").value;
+                const parentResourceId = document.getElementById("parentResourceId").value;
+                const page = document.getElementById("page").value;
+                const size = document.getElementById("size").value;
+
+                let url = "http://localhost:3000/?";
+
+                if (level && level !== "") {
+                    url += `&level=${level}`;
+                }
+
+                if (message && message !== "") {
+                    url += `&message=${message}`;
+                }
+
+                if (resourceId && resourceId !== "") {
+                    url += `&resourceId=${resourceId}`;
+                }
+
+                if (timestamp_start && timestamp_start !== "") {
+                    url += `&timestamp_start=${timestamp_start}`;
+                }
+
+                if (timestamp_end && timestamp_end !== "") {
+                    url += `&timestamp_end=${timestamp_end}`;
+                }
+
+                if (traceId && traceId !== "") {
+                    url += `&traceId=${traceId}`;
+                }
+
+                if (spanId && spanId !== "") {
+                    url += `&spanId=${spanId}`;
+                }
+
+                if (commit && commit !== "") {
+                    url += `&commit=${commit}`;
+                }
+
+                if (parentResourceId && parentResourceId !== "") {
+                    url += `&parentResourceId=${parentResourceId}`;
+                }
+
+                if (page && page !== "") {
+                    url += `&page=${page}`;
+                }
+
+                if (size && size !== "") {
+                    url += `&size=${size}`;
+                }
+
+                console.log("Get Logs URL:", url);
+
+                let response = await fetch(url);
+
+                if (response.ok) {
+                    let json = await response.json();
+                    console.log("Get Logs Response:", json);
+
+                    const responseContainer = document.getElementById("responseContainer");
+                    responseContainer.innerHTML = `<pre>${JSON.stringify(json, null, 2)}</pre>`;
+
+                } else {
+                    console.error("Get Logs Error:", response);
+                }
+            }
+        </script>
+    </body>
+
+</html>

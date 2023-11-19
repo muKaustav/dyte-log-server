@@ -48,7 +48,6 @@ class CassandraFactory:
         return self.session
 
     def insert_log(self, log):
-        print("CASSANDRA", log)
         self.session.execute(
             f"""
             INSERT INTO {self.KEYSPACE}.logs (

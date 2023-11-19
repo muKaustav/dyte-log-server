@@ -12,6 +12,7 @@ services:
     environment:
       - KAFKA_URL=http://producer:8000/
       - ELASTICSEARCH_URL=http://es-server:9000/
+      - SECRET_KEY=secret
     depends_on:
       - kafka
     networks:

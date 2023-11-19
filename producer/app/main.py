@@ -14,7 +14,6 @@ producer = AIOKafkaProducer(
 @app.post("/")
 async def produce_message(log: Log):
     try:
-        print("PRODUCER", log.model_dump_json().encode("utf-8"))
         await producer.send_and_wait("logs", log.model_dump_json().encode("utf-8"))
 
         return {"message": "Message sent"}
