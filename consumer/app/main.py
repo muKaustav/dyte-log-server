@@ -9,6 +9,7 @@ import elasticsearch
 app = FastAPI()
 
 consumer = AIOKafkaConsumer(
+    os.getenv("KAFKA_TOPIC"),
     bootstrap_servers=f"{os.getenv('KAFKA_HOST')}:{os.getenv('KAFKA_PORT')}",
     group_id="my-group",
     auto_offset_reset="earliest",
@@ -23,8 +24,6 @@ es_client = elasticsearch.Elasticsearch(
 
 
 async def consume_and_insert_to_cassandra():
-    consumer.subscribe(["logs"])
-
     try:
         async for msg in consumer:
             data = json.loads(msg.value.decode("utf-8"))

@@ -1,4 +1,4 @@
-FROM python:3.8-slim-buster
+FROM python:3.9.6-slim-buster
 
 WORKDIR /app
 
@@ -11,13 +11,10 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip 
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt --no-cache-dir
 
-COPY requirements.txt ./
-
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-
+COPY ./entrypoint.sh .
 RUN chmod +x /app/entrypoint.sh
 
 ENTRYPOINT ["sh", "/app/entrypoint.sh"]

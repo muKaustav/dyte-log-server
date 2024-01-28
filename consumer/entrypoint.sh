@@ -1,11 +1,10 @@
 #!/bin/sh
 
-echo "Waiting for kafka..."
-
-while ! kafkacat -b $KAFKA_HOST:$KAFKA_PORT -L; do
-    sleep 0.1
+while ! kafkacat -b kafka:9092 -L; do
+    echo "Waiting for Kafka to be ready..."
+    sleep 1
 done
 
-echo "Kafka started"
+echo "Kafka is ready - executing command"
 
 exec "$@"

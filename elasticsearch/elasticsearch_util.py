@@ -30,7 +30,7 @@ def create_index(index):
         print(e)
 
 
-def set_subtitles_mapping():
+def set_logs_mapping():
     try:
         schema = {
             "properties": {

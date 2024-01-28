@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Query
 import elasticsearch
-from elasticsearch_util import check_connection, create_index, set_subtitles_mapping
+from elasticsearch_util import check_connection, create_index, set_logs_mapping
 from datetime import datetime
 from starlette.responses import JSONResponse
 
@@ -55,7 +55,18 @@ def filter_logs(
             query["bool"]["must"].append({"match": {"message": message}})
 
     if resourceId:
-        query["bool"]["must"].append({"term": {"resourceId": resourceId}})
+        query["bool"]["must"].append(
+            {
+                "bool": {
+                    "should": [
+                        {
+                            "match": {"resourceId": resourceId},
+                        }
+                    ],
+                    "minimum_should_match": 1,
+                }
+            }
+        )
 
     if timestamp_start and timestamp_end:
         query["bool"]["must"].append(
@@ -70,16 +81,60 @@ def filter_logs(
         )
 
     if traceId:
-        query["bool"]["must"].append({"term": {"traceId": traceId}})
+        query["bool"]["must"].append(
+            {
+                "bool": {
+                    "should": [
+                        {
+                            "match": {"traceId": traceId},
+                        }
+                    ],
+                    "minimum_should_match": 1,
+                }
+            }
+        )
 
     if spanId:
-        query["bool"]["must"].append({"term": {"spanId": spanId}})
+        query["bool"]["must"].append(
+            {
+                "bool": {
+                    "should": [
+                        {
+                            "match": {"spanId": spanId},
+                        }
+                    ],
+                    "minimum_should_match": 1,
+                }
+            }
+        )
 
     if commit:
-        query["bool"]["must"].append({"term": {"commit": commit}})
+        query["bool"]["must"].append(
+            {
+                "bool": {
+                    "should": [
+                        {
+                            "match": {"commit": commit},
+                        }
+                    ],
+                    "minimum_should_match": 1,
+                }
+            }
+        )
 
     if parentResourceId:
-        query["bool"]["must"].append({"term": {"parentResourceId": parentResourceId}})
+        query["bool"]["must"].append(
+            {
+                "bool": {
+                    "should": [
+                        {
+                            "match": {"parentResourceId": parentResourceId},
+                        }
+                    ],
+                    "minimum_should_match": 1,
+                }
+            }
+        )
 
     try:
         result = esclient.search(
@@ -111,7 +166,7 @@ async def startup_event():
     print("Starting up...")
     check_connection()
     create_index("logs")
-    set_subtitles_mapping()
+    set_logs_mapping()
 
 
 @app.on_event("shutdown")
